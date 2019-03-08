@@ -2,7 +2,10 @@ package com.apnot.hquery.service;
 
 import com.apnot.hquery.HqueryApplication;
 import com.apnot.hquery.model.Details;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -81,10 +84,15 @@ public class DetailsServiceClientIntegrationTest {
     }
 
     @Test
-    public void testExchangeWithPost() {
+    public void testExchangeWithPost() throws JsonProcessingException {
         String requestParams = httpBuildQuery(params, "UTF-8");
 
-//        System.out.println("requestParams : " + requestParams);
-        System.out.println("Response body: " + client.exchangeWithPost(requestParams));
+        System.out.println("requestParams : " + requestParams);
+
+        Details details = client.exchangeWithPost(requestParams).getBody();
+        String jsonNode = objectMapper.writeValueAsString(details);
+
+        System.out.println("JsonNode : " + jsonNode);
+//        System.out.println("Response body: " + client.exchangeWithPost(requestParams));
     }
 }
